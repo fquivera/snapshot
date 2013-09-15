@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block contenido %}
+	<div class="thumbnail center well well-small text-center">
+		<h2>JpegCam con Django 1.5</h2>
+		<p>Esta es una aplicación basada en <a href="http://code.google.com/p/jpegcam">Jpegcam</a>, que es una libreria en flash y javascript. Actualizando y mejorando el articulo publicado por <a href="http://wwww.rkblog.rk.edu.pl/w/p/capturing-images-webcam-django-jpegcam">Piotr Maliński</a>, ya que aqui almacenamos la captura en la Base de datos y le damos estilo con <a href="http://getbootstrap.com/2.3.2/index.html">Bootstrap</a></p>
+		<p>Cualquier mejora es Bienvenida</p>
+		<a class="btn btn-large btn-primary" href="{% url 'add_persona' %} ">Empezar</a>
+	</div>
+{% endblock contenido %}

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block contenido %}
+<div class="row">
+    <div class="span2">
+      <img src="{{MEDIA_URL}}{{ object.foto }}" alt="" class="img-rounded">
+    </div>
+    <div class="span4">
+    	<blockquote>
+        <p>{{ object.full_name }}</p>
+        <small>Cedula: {{ object.cedula }}</small>
+      </blockquote>
+    </div>
+{% endblock contenido %}

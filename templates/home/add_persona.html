@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% block extra_css %}
+	<!-- Primero, incluir la libreria de JpegCam -->
+	<script type="text/javascript" src="{{ STATIC_URL }}jpegcam/webcam.js"></script>
+{% endblock extra_css %}
+{% block contenido %}
+	<h1>Registrar Persona</h1>
+	<form class="span10" action="" method="POST" enctype="multipart/form-data">
+		{% csrf_token %}
+		<div class="row well">
+			<div class="span6">
+				<div class="control-group">
+					<label for="cedula" class="control-label">
+						Cedula:
+					</label>
+					<div class="controls">
+						<input name="cedula" type="text" value="" id="cedula">
+						<span class="help-inline">  Escriba su Cedula de Identidad</span>
+					</div>
+				</div>
+				<div class="control-group">
+					<label for="nombres" class="control-label">
+						Nombres:
+					</label>
+					<div class="controls">
+						<input name="nombres" type="text" value="" id="nombres">
+					</div>
+				</div>
+				<div class="control-group">
+					<label for="apellidos" class="control-label">
+						Apellidos:
+					</label>
+					<div class="controls">
+						<input name="apellidos" type="text" value="" id="apellidos">
+					</div>
+				</div>
+				<div class="control-group">
+					<label for="foto" class="control-label">
+						Foto:
+					</label>
+					<div class="controls">
+						<input name="foto" type="file" value="" id="foto">
+						<a href="#takephoto" role="button" data-toggle="modal" class="btn btn-warning">Tomar Foto</a>
+					</div>
+				</div>
+
+			</div>
+			<div class="span3" id="fotoview">
+				
+			</div>
+		</div>
+		<button type="submit" class="btn btn-primary pull-right">Guardar</button>
+	</form>
+	<!-- Advanced Modal -->
+	<div id="takephoto" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+		    <h3 id="myModalLabel">Camara</h3>
+		</div>
+		<div class="modal-body">
+			<!-- Configure a few settings -->
+			<script language="JavaScript">
+				document.write( webcam.get_html(320, 240) );
+			</script>
+		</div>
+		<div class="modal-footer">
+			<button class="btn" data-dismiss="modal" aria-hidden="true">Cerrar</button>
+			<button class="btn btn-primary" onClick="take_snapshot()" >Fotografíar</button>
+		</div>
+	</div>
+
+{% endblock contenido %}
+{% block extra_js %}
+	<!-- Code to handle the server response -->
+	<script language="JavaScript">
+
+		function take_snapshot() {
+			
+			var cedula = document.getElementById('cedula').value;
+			webcam.set_api_url( '/save_image/'+escape(cedula)+'/' );
+			webcam.set_hook( 'onComplete', 'my_completion_handler' );
+			// take snapshot and upload to server
+			webcam.snap();
+		}
+
+		function my_completion_handler(msg) {
+			if (msg.match(/(\/media\/\S+)/)) {
+				var image_url = RegExp.$1;
+				// show JPEG image in page
+				document.getElementById('fotoview').innerHTML =
+					'<label>Fotografía</label>' +
+					'<img src="' + image_url + '" class="img-polaroid" >';
+
+				// reset camera for another shot
+				webcam.reset();
+			}
+			else alert("Python Error: " + msg);
+		}
+	</script>
+{% endblock extra_js %}

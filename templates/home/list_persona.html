@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block contenido %}
+
+<ul class="thumbnails">
+	{% for p in object_list %}
+		<li class="span6 clearfix">
+			<img src="{{MEDIA_URL}}{{ p.foto }}" alt="" class="pull-left span2 clearfix img-polaroid" style='margin-right: 10px'>
+			<div class="caption" class="pull-left">
+				<a href="{% url 'persona' p.id %}" class="btn btn-primary icon pull-right">Ver</a>
+				<h4>{{ p.full_name }}</h4>
+				<small><b>Cedula: </b>{{ p.cedula }}</small>
+			</div>
+		</li>
+	{% endfor %}
+</ul>
+{% endblock contenido %}
